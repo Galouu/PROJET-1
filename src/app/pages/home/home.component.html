@@ -16,7 +16,8 @@
     <canvas baseChart
             [data]="barChartData"
             [options]="barChartOptions"
-            chartType="bar">
+            chartType="bar"
+            (chartClick)="onChartClick($event)">
     </canvas>
   </div>
 </div>

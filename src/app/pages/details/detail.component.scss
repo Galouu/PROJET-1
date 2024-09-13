@@ -42,3 +42,16 @@ h2 {
   padding: 10px;
   border-radius: 10px;
 }
+
+.back-button {
+  background-color: #59a09b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: #3e7d72;
+  }
+}
