@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ChartData, ChartOptions } from 'chart.js';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -67,7 +69,7 @@ export class HomeComponent implements OnInit {
     },
   };
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
@@ -100,5 +102,15 @@ export class HomeComponent implements OnInit {
         },
       ],
     };
+  }
+  onChartClick(event: any): void {
+    const activePoints = event.active;
+    if (activePoints.length > 0) {
+      const index = activePoints[0].index;
+      const country = this.barChartData?.labels?.[index];
+      if (country) {
+        this.router.navigate([`/details/${country}`]);
+      }
+    }
   }
 }
