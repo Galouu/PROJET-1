@@ -1,3 +1,11 @@
-<h2>Olympic games app</h2>
+<h2>Olympic Games App</h2>
 <hr />
 <p>{{ (olympics$ | async)?.length }} data loaded</p>
+
+<div *ngIf="barChartData">
+  <canvas baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          chartType="bar">
+  </canvas>
+</div>
