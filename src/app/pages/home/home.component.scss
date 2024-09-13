@@ -1,5 +1,44 @@
 canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+:host {
   display: block;
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+
+.statistics-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.stat-box {
+  border: 2px solid #59a09b;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0 10px;
+  text-align: center;
+  width: 150px;
+}
+
+.stat-box p {
+  color: #7a7a7a;
+  font-size: 16px;
+}
+
+.stat-box h3 {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+h2 {
+  text-align: center;
+  background-color: #59a09b;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
 }
