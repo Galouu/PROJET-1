@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';  // Import du Router pour la redirection
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { Location } from '@angular/common';
-
 
 @Component({
   selector: 'app-country-detail',
@@ -60,13 +59,18 @@ export class CountryDetailComponent implements OnInit {
         }
       },
       y: {
-
+        beginAtZero: true,  // Commencer l'axe Y à zéro
+        title: {
+          display: true,
+          text: 'Number of Medals',
+        }
       }
     }
   };
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,  // Ajout du Router pour la redirection
     private olympicService: OlympicService,
     private location: Location
   ) {}
@@ -76,6 +80,8 @@ export class CountryDetailComponent implements OnInit {
       this.country = params.get('country');
       if (this.country) {
         this.loadCountryData(this.country);
+      } else {
+        this.handleInvalidCountry();
       }
     });
   }
@@ -85,13 +91,20 @@ export class CountryDetailComponent implements OnInit {
   }
 
   private loadCountryData(country: string) {
-    this.olympicService.getOlympics().subscribe((olympics) => {
-      const selectedCountry = olympics?.find(o => o.country === country);
-      if (selectedCountry) {
-        this.prepareLineChartData(selectedCountry);
-        this.calculateStatistics(selectedCountry);
+    this.olympicService.getOlympics().subscribe(
+      (olympics) => {
+        const selectedCountry = olympics?.find(o => o.country === country);
+        if (selectedCountry) {
+          this.prepareLineChartData(selectedCountry);
+          this.calculateStatistics(selectedCountry);
+        } else {
+          this.handleInvalidCountry();
+        }
+      },
+      (error) => {
+        this.router.navigate(['/404']);
       }
-    });
+    );
   }
 
   private prepareLineChartData(countryData: Olympic) {
@@ -106,7 +119,7 @@ export class CountryDetailComponent implements OnInit {
           data: medals,
           borderColor: 'rgba(75, 192, 192, 1)',
           tension: 0.1,
-          type: 'line'
+          fill: false
         }
       ]
     };
@@ -116,5 +129,9 @@ export class CountryDetailComponent implements OnInit {
     this.totalEntries = countryData.participations.length;
     this.totalMedals = countryData.participations.reduce((acc, p) => acc + p.medalsCount, 0);
     this.totalAthletes = countryData.participations.reduce((acc, p) => acc + p.athleteCount, 0);
+  }
+
+  private handleInvalidCountry(): void {
+    this.router.navigate(['/404']);
   }
 }
