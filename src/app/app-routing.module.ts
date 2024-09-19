@@ -9,15 +9,17 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
   },
-
   {
     path: 'details/:country',
     component: CountryDetailComponent,
   },
-
   {
-    path: '**', // wildcard
+    path: '404',
     component: NotFoundComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '/404',
   },
 ];
 
